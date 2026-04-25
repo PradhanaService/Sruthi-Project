@@ -1,0 +1,103 @@
+import { ArrowRight, BookOpen, Layers, ShieldCheck } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import BlogCard from '../components/BlogCard.jsx'
+import ErrorMessage from '../components/ErrorMessage.jsx'
+import Loading from '../components/Loading.jsx'
+import { getBlogs } from '../services/blogService.js'
+
+export default function Home() {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    async function loadPosts() {
+      try {
+        const latestPosts = await getBlogs({ limit: 3 })
+        setPosts(latestPosts)
+      } catch (err) {
+        setError(err.message || 'Unable to load latest posts.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPosts()
+  }, [])
+
+  return (
+    <>
+      <section className="border-b border-stone-200 bg-white">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-20">
+          <div className="space-y-7">
+            <span className="inline-flex rounded-full bg-teal-50 px-4 py-2 text-sm font-black text-teal-800">
+              Modern blog publishing
+            </span>
+            <div className="space-y-5">
+              <h1 className="max-w-3xl text-4xl font-black leading-tight text-slate-950 sm:text-5xl lg:text-6xl">
+                Read sharp ideas and manage posts from one clean dashboard.
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-slate-600">
+                Inkline is a Firebase blog platform with public reading pages, search, categories,
+                and a protected admin workflow for creating and editing posts.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/blogs" className="inline-flex items-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-sm font-black text-white transition hover:bg-teal-800">
+                Browse posts <ArrowRight size={18} />
+              </Link>
+              <Link to="/admin/login" className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-5 py-3 text-sm font-black text-slate-800 transition hover:border-teal-700 hover:text-teal-800">
+                Admin area
+              </Link>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-lg border border-stone-200 bg-stone-950 shadow-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80"
+              alt="Desk with writing tools"
+              className="h-72 w-full object-cover opacity-90 sm:h-96"
+            />
+            <div className="grid grid-cols-3 divide-x divide-stone-800 text-white">
+              <div className="p-4">
+                <BookOpen size={20} />
+                <p className="mt-2 text-sm font-bold">Readable posts</p>
+              </div>
+              <div className="p-4">
+                <Layers size={20} />
+                <p className="mt-2 text-sm font-bold">Categories</p>
+              </div>
+              <div className="p-4">
+                <ShieldCheck size={20} />
+                <p className="mt-2 text-sm font-bold">Firebase auth</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-14">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-black uppercase tracking-wide text-teal-700">Latest posts</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950">Fresh from the blog</h2>
+          </div>
+          <Link to="/blogs" className="inline-flex items-center gap-2 text-sm font-black text-teal-800">
+            View all <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <ErrorMessage message={error} />
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => <BlogCard key={post._id} post={post} />)}
+          </div>
+        )}
+      </section>
+    </>
+  )
+}

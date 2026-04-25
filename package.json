@@ -1,0 +1,16 @@
+{
+  "name": "blog-platform",
+  "version": "1.0.0",
+  "description": "Full-stack blog platform mini project.",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "seed": "npm --prefix frontend run seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}

@@ -41,6 +41,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-2 md:flex">
           <NavLink to="/" className={linkClass}>Home</NavLink>
           <NavLink to="/blogs" className={linkClass}>Blogs</NavLink>
+          <NavLink to="/write" className={linkClass}>Write</NavLink>
           {token ? (
             <>
               <NavLink to="/admin/dashboard" className={linkClass}>Dashboard</NavLink>
@@ -63,6 +64,7 @@ export default function Navbar() {
           <div className="mx-auto flex max-w-6xl flex-col gap-2">
             <NavLink onClick={() => setOpen(false)} to="/" className={linkClass}>Home</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/blogs" className={linkClass}>Blogs</NavLink>
+            <NavLink onClick={() => setOpen(false)} to="/write" className={linkClass}>Write</NavLink>
             {token ? (
               <>
                 <NavLink onClick={() => setOpen(false)} to="/admin/dashboard" className={linkClass}>Dashboard</NavLink>

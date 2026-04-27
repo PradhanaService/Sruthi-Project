@@ -36,6 +36,7 @@ function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/:slug" element={<BlogDetails />} />
+          <Route path="/write" element={<CreatePost />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
@@ -47,11 +48,7 @@ function AppRoutes() {
           />
           <Route
             path="/admin/posts/create"
-            element={
-              <ProtectedRoute>
-                <CreatePost />
-              </ProtectedRoute>
-            }
+            element={<CreatePost />}
           />
           <Route
             path="/admin/posts/:id/edit"

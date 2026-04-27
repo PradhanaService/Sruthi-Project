@@ -1,6 +1,6 @@
 # Blog Platform
 
-A clean Firebase blog platform where public users can read and search posts, while an authenticated admin can create, edit, delete, publish, and unpublish posts.
+A clean Firebase blog platform where public users can read, search, and upload posts, while an authenticated admin can edit, delete, publish, and unpublish posts.
 
 ## Tech Stack
 
@@ -77,11 +77,13 @@ blog-platform/
 - Home page with latest blog posts
 - Blog listing page
 - Blog details page
+- Public blog upload page
 - Search by title or category
 - Filter by category
 - Admin login
 - Protected admin dashboard
-- Create, edit, delete, publish, and unpublish posts
+- Public create/upload posts
+- Admin edit, delete, publish, and unpublish posts
 - Responsive UI with loading and error states
 
 ## Documentation

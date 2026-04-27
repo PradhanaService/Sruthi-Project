@@ -30,9 +30,9 @@ export default function CreatePost() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-12">
       <div className="reveal-luxury mb-8">
-        <p className="text-sm font-black uppercase tracking-wide text-[#9a6f2b]">Community writing</p>
-        <h1 className="mt-2 text-4xl font-black text-[#20170e]">Upload a blog post</h1>
-        <p className="mt-3 max-w-2xl leading-7 text-[#675744]">
+        <p className="text-sm font-black uppercase tracking-wide text-[#1b7a6b]">Community writing</p>
+        <h1 className="mt-2 text-4xl font-black text-[#101820]">Upload a blog post</h1>
+        <p className="mt-3 max-w-2xl leading-7 text-[#536872]">
           Share a post with the blog audience. Submitted posts are published immediately.
         </p>
       </div>

@@ -37,9 +37,9 @@ export default function Blogs() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <div className="reveal-luxury mb-8 space-y-3">
-        <p className="text-sm font-black uppercase tracking-wide text-[#9a6f2b]">Public library</p>
-        <h1 className="text-4xl font-black text-[#20170e]">Explore all blog posts</h1>
-        <p className="max-w-2xl leading-7 text-[#675744]">
+        <p className="text-sm font-black uppercase tracking-wide text-[#1b7a6b]">Public library</p>
+        <h1 className="text-4xl font-black text-[#101820]">Explore all blog posts</h1>
+        <p className="max-w-2xl leading-7 text-[#536872]">
           Search by title or category, then narrow the list with the category filter.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function Blogs() {
         ) : error ? (
           <ErrorMessage message={error} />
         ) : posts.length === 0 ? (
-          <div className="luxury-surface rounded-lg p-8 text-center text-[#675744]">
+          <div className="luxury-surface rounded-lg p-8 text-center text-[#536872]">
             No posts found. Try a different search.
           </div>
         ) : (

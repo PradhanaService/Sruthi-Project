@@ -39,15 +39,15 @@ export default function BlogDetails() {
 
   return (
     <article>
-      <div className="bg-[#fff8ec]/70">
+      <div className="bg-[#f8fbfa]/70">
         <div className="reveal-luxury mx-auto max-w-4xl px-4 py-12">
-          <Link to="/blogs" className="text-sm font-black text-[#8a5f22] transition hover:text-[#20170e]">Back to blogs</Link>
+          <Link to="/blogs" className="text-sm font-black text-[#1b7a6b] transition hover:text-[#0c2230]">Back to blogs</Link>
           <div className="mt-5 space-y-5">
-            <span className="inline-flex rounded-full border border-[#d4b978]/50 bg-[#fff4dc] px-3 py-1 text-xs font-black uppercase tracking-wide text-[#9a6f2b]">
+            <span className="inline-flex rounded-full border border-[#1b7a6b]/30 bg-[#e3f0ed] px-3 py-1 text-xs font-black uppercase tracking-wide text-[#1b7a6b]">
               {post.category}
             </span>
-            <h1 className="text-4xl font-black leading-tight text-[#20170e] md:text-5xl">{post.title}</h1>
-            <p className="text-lg leading-8 text-[#675744]">{post.shortDescription}</p>
+            <h1 className="text-4xl font-black leading-tight text-[#101820] md:text-5xl">{post.title}</h1>
+            <p className="text-lg leading-8 text-[#536872]">{post.shortDescription}</p>
             <div className="flex flex-wrap gap-4 text-sm font-semibold text-[#7b6a55]">
               <span className="inline-flex items-center gap-2"><UserRound size={16} /> {post.authorName}</span>
               <span className="inline-flex items-center gap-2"><Calendar size={16} /> {formatDate(post.createdAt)}</span>

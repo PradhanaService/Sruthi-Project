@@ -2,21 +2,21 @@ import { Search } from 'lucide-react'
 
 export default function SearchFilters({ categories, category, onCategoryChange, onSearchChange, search }) {
   return (
-    <div className="grid gap-3 rounded-lg border border-stone-200 bg-white p-4 shadow-sm md:grid-cols-[1fr_16rem]">
+    <div className="luxury-surface grid gap-3 rounded-lg p-4 md:grid-cols-[1fr_16rem]">
       <label className="relative block">
         <span className="sr-only">Search posts</span>
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9a6f2b]" size={18} />
         <input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Search by title or category"
-          className="w-full rounded-md border border-stone-300 bg-white py-3 pl-10 pr-3 text-sm outline-none transition focus:border-teal-700 focus:ring-4 focus:ring-teal-100"
+          className="w-full rounded-md border border-[#d4b978]/60 bg-[#fffaf2] py-3 pl-10 pr-3 text-sm text-[#2b2117] outline-none transition focus:border-[#9a6f2b] focus:ring-4 focus:ring-[#d6b878]/25"
         />
       </label>
       <select
         value={category}
         onChange={(event) => onCategoryChange(event.target.value)}
-        className="rounded-md border border-stone-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700 outline-none transition focus:border-teal-700 focus:ring-4 focus:ring-teal-100"
+        className="rounded-md border border-[#d4b978]/60 bg-[#fffaf2] px-3 py-3 text-sm font-semibold text-[#4c3c2a] outline-none transition focus:border-[#9a6f2b] focus:ring-4 focus:ring-[#d6b878]/25"
       >
         <option value="">All categories</option>
         {categories.map((item) => (

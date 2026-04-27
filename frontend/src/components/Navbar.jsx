@@ -3,18 +3,18 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const linkClass = ({ isActive }) =>
-  `rounded-md px-3 py-2 text-sm font-semibold transition hover:bg-teal-50 hover:text-teal-800 ${
-    isActive ? 'bg-teal-700 text-white hover:bg-teal-700 hover:text-white' : 'text-slate-700'
+  `rounded-md px-3 py-2 text-sm font-semibold transition duration-300 hover:bg-[#f2dfb8] hover:text-[#2a2118] ${
+    isActive ? 'gold-gradient text-[#1d1710] shadow-lg shadow-[#9b7130]/20' : 'text-[#5b4b38]'
   }`
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[#d8bf8b]/30 bg-[#fff8ec]/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link to="/" className="flex items-center gap-2 text-lg font-black tracking-tight text-slate-900">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-teal-700 text-white">
+        <Link to="/" className="flex items-center gap-2 text-lg font-black tracking-tight text-[#241c14]">
+          <span className="gold-gradient grid h-9 w-9 place-items-center rounded-lg text-[#20170e] shadow-lg shadow-[#a7792f]/25">
             <PenLine size={19} />
           </span>
           Inkline
@@ -23,7 +23,7 @@ export default function Navbar() {
         <button
           type="button"
           aria-label="Toggle navigation"
-          className="rounded-md border border-stone-200 p-2 text-slate-700 md:hidden"
+          className="rounded-md border border-[#d8bf8b]/50 p-2 text-[#4a3a2a] md:hidden"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X size={20} /> : <Menu size={20} />}
@@ -37,7 +37,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-stone-200 bg-white px-4 py-3 md:hidden">
+        <div className="border-t border-[#d8bf8b]/30 bg-[#fff8ec] px-4 py-3 md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-2">
             <NavLink onClick={() => setOpen(false)} to="/" className={linkClass}>Home</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/blogs" className={linkClass}>Blogs</NavLink>

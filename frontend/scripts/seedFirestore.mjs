@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import { initializeApp } from 'firebase/app'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import {
   addDoc,
   collection,
@@ -29,18 +28,8 @@ if (Object.values(firebaseConfig).some((value) => !value)) {
   throw new Error('Firebase env values are missing. Create frontend/.env first.')
 }
 
-const adminEmail = process.env.VITE_ADMIN_EMAIL
-const adminPassword = process.env.VITE_ADMIN_PASSWORD
-
-if (!adminEmail || !adminPassword) {
-  throw new Error('Set VITE_ADMIN_EMAIL and VITE_ADMIN_PASSWORD in frontend/.env before seeding.')
-}
-
 const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
 const db = getFirestore(app)
-
-await signInWithEmailAndPassword(auth, adminEmail, adminPassword)
 
 for (const post of samplePosts) {
   const slug = createSlug(post.title)

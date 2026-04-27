@@ -1,13 +1,12 @@
 # Blog Platform
 
-A clean Firebase blog platform where public users can read, search, and upload posts, while an authenticated admin can edit, delete, publish, and unpublish posts.
+A clean Firebase blog platform where users can read, search, and upload blog posts.
 
 ## Tech Stack
 
 - React + Vite
 - Tailwind CSS
 - React Router
-- Firebase Authentication
 - Cloud Firestore
 
 ## Run The Application
@@ -24,17 +23,6 @@ Open the local URL shown in the terminal, usually:
 
 ```text
 http://localhost:5173
-```
-
-## Admin Login
-
-Use the admin account created in Firebase Authentication.
-
-Example:
-
-```text
-Email: admin@example.com
-Password: Admin@12345
 ```
 
 ## Seed Sample Blog Posts
@@ -80,10 +68,7 @@ blog-platform/
 - Public blog upload page
 - Search by title or category
 - Filter by category
-- Admin login
-- Protected admin dashboard
 - Public create/upload posts
-- Admin edit, delete, publish, and unpublish posts
 - Responsive UI with loading and error states
 
 ## Documentation

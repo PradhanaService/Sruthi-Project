@@ -1,7 +1,6 @@
 import { Menu, PenLine, X } from 'lucide-react'
 import { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../services/useAuth.js'
+import { Link, NavLink } from 'react-router-dom'
 
 const linkClass = ({ isActive }) =>
   `rounded-md px-3 py-2 text-sm font-semibold transition hover:bg-teal-50 hover:text-teal-800 ${
@@ -10,14 +9,6 @@ const linkClass = ({ isActive }) =>
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const { logout, token } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    logout()
-    setOpen(false)
-    navigate('/')
-  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur">
@@ -42,20 +33,6 @@ export default function Navbar() {
           <NavLink to="/" className={linkClass}>Home</NavLink>
           <NavLink to="/blogs" className={linkClass}>Blogs</NavLink>
           <NavLink to="/write" className={linkClass}>Write</NavLink>
-          {token ? (
-            <>
-              <NavLink to="/admin/dashboard" className={linkClass}>Dashboard</NavLink>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="rounded-md border border-stone-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-teal-700 hover:text-teal-800"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <NavLink to="/admin/login" className={linkClass}>Admin Login</NavLink>
-          )}
         </div>
       </nav>
 
@@ -65,20 +42,6 @@ export default function Navbar() {
             <NavLink onClick={() => setOpen(false)} to="/" className={linkClass}>Home</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/blogs" className={linkClass}>Blogs</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/write" className={linkClass}>Write</NavLink>
-            {token ? (
-              <>
-                <NavLink onClick={() => setOpen(false)} to="/admin/dashboard" className={linkClass}>Dashboard</NavLink>
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="rounded-md border border-stone-300 px-3 py-2 text-left text-sm font-semibold text-slate-700"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <NavLink onClick={() => setOpen(false)} to="/admin/login" className={linkClass}>Admin Login</NavLink>
-            )}
           </div>
         </div>
       )}

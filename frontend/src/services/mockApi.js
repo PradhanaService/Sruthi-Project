@@ -16,8 +16,7 @@ let posts = samplePosts.map((post, index) => ({
 }))
 
 function filterPosts(params = {}) {
-  const includeUnpublished = params.includeUnpublished === true || params.includeUnpublished === 'true'
-  let filtered = includeUnpublished ? posts : posts.filter((post) => post.published)
+  let filtered = posts.filter((post) => post.published)
 
   if (params.category) {
     filtered = filtered.filter((post) => post.category.toLowerCase() === params.category.toLowerCase())
@@ -56,18 +55,6 @@ const mockApi = {
     return { data: {} }
   },
   async post(url, payload) {
-    if (url === '/auth/login') {
-      if (payload.email === 'admin@example.com' && payload.password === 'Admin@12345') {
-        return {
-          data: {
-            token: 'mock-admin-token',
-            admin: { id: 'admin-1', name: 'Admin User', email: 'admin@example.com' },
-          },
-        }
-      }
-      throw { response: { data: { message: 'Invalid email or password.' } } }
-    }
-
     if (url === '/blogs') {
       const id = crypto.randomUUID()
       const blog = {

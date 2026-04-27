@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Layers, ShieldCheck } from 'lucide-react'
+import { ArrowRight, BookOpen, Database, Layers } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BlogCard from '../components/BlogCard.jsx'
@@ -36,19 +36,19 @@ export default function Home() {
             </span>
             <div className="space-y-5">
               <h1 className="max-w-3xl text-4xl font-black leading-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                Read sharp ideas and manage posts from one clean dashboard.
+                Read sharp ideas and share your own posts with the community.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-slate-600">
                 Inkline is a Firebase blog platform with public reading pages, search, categories,
-                and a protected admin workflow for creating and editing posts.
+                and a simple writing form for uploading new posts.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link to="/blogs" className="inline-flex items-center gap-2 rounded-md bg-teal-700 px-5 py-3 text-sm font-black text-white transition hover:bg-teal-800">
                 Browse posts <ArrowRight size={18} />
               </Link>
-              <Link to="/admin/login" className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-5 py-3 text-sm font-black text-slate-800 transition hover:border-teal-700 hover:text-teal-800">
-                Admin area
+              <Link to="/write" className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-5 py-3 text-sm font-black text-slate-800 transition hover:border-teal-700 hover:text-teal-800">
+                Write a post
               </Link>
             </div>
           </div>
@@ -69,8 +69,8 @@ export default function Home() {
                 <p className="mt-2 text-sm font-bold">Categories</p>
               </div>
               <div className="p-4">
-                <ShieldCheck size={20} />
-                <p className="mt-2 text-sm font-bold">Firebase auth</p>
+                <Database size={20} />
+                <p className="mt-2 text-sm font-bold">Firestore data</p>
               </div>
             </div>
           </div>

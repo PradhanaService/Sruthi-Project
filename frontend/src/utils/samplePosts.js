@@ -20,24 +20,14 @@ const samplePosts = [
     published: true,
   },
   {
-    title: 'A Beginner Friendly Guide to Firebase Security',
-    shortDescription: 'Learn the core ideas behind Firebase Auth, Firestore rules, and protected writes.',
+    title: 'A Beginner Friendly Guide to Firebase Data',
+    shortDescription: 'Learn how Firestore powers a simple public blog platform.',
     content:
-      'Firebase Authentication handles sign-in and session state for the admin user. The React app listens for auth changes and protects admin-only screens.\n\nFirestore rules protect the database. Public readers can view published posts, while only signed-in users can create, edit, or delete posts.\n\nConfiguration still matters. Keep Firebase keys in environment variables and restrict Firestore writes with rules instead of trusting the browser.',
+      'Cloud Firestore stores blog posts as documents inside a blogs collection. Each document contains the title, slug, content, author, category, and published status.\n\nThe React app reads published posts from Firestore and shows them on public pages. Users can upload new posts through a simple writing form.\n\nConfiguration still matters. Keep Firebase settings in environment variables and use Firestore rules to control exactly which operations are allowed.',
     category: 'Firebase',
     authorName: 'Nisha Kapoor',
     coverImageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
     published: true,
-  },
-  {
-    title: 'Draft: Editorial Calendar Ideas',
-    shortDescription: 'An unpublished sample draft visible only in the admin dashboard.',
-    content:
-      'This draft exists to show how unpublished posts stay hidden from the public blog list while remaining manageable in the admin dashboard.',
-    category: 'Planning',
-    authorName: 'Maya Raman',
-    coverImageUrl: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80',
-    published: false,
   },
 ]
 

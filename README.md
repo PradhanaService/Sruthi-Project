@@ -42,6 +42,17 @@ npm run lint
 npm run build
 ```
 
+## Netlify Deployment
+
+Use these settings if Netlify does not detect them automatically:
+
+```text
+Build command: npm --prefix frontend run build
+Publish directory: frontend/dist
+```
+
+The project includes `netlify.toml` and `frontend/public/_redirects` so React Router pages work after refresh or direct URL access.
+
 ## Project Files
 
 ```text

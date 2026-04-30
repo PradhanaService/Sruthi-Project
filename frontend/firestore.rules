@@ -9,6 +9,7 @@ service cloud.firestore {
       'content',
       'category',
       'authorName',
+      'authorUid',
       'coverImageUrl',
       'published'
     ])
@@ -18,15 +19,29 @@ service cloud.firestore {
     && request.resource.data.content is string
     && request.resource.data.category is string
     && request.resource.data.authorName is string
+    && request.resource.data.authorUid is string
     && request.resource.data.coverImageUrl is string
     && request.resource.data.published is bool;
   }
 
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isOwner(data) {
+    return isSignedIn() && data.authorUid == request.auth.uid;
+  }
+
   match /databases/{database}/documents {
     match /blogs/{blogId} {
-      allow read: if resource.data.published == true;
-      allow create: if hasValidBlogFields();
-      allow update, delete: if false;
+      allow read: if resource.data.published == true || isOwner(resource.data);
+      allow create: if isSignedIn()
+        && hasValidBlogFields()
+        && request.resource.data.authorUid == request.auth.uid;
+      allow update: if isOwner(resource.data)
+        && hasValidBlogFields()
+        && request.resource.data.authorUid == resource.data.authorUid;
+      allow delete: if isOwner(resource.data);
     }
   }
 }

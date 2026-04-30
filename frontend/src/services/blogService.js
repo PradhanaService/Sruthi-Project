@@ -1,11 +1,14 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit as limitQuery,
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore'
 import { db } from './firebase.js'
@@ -40,6 +43,19 @@ function matchesSearch(post, search) {
   if (!search) return true
   const term = search.toLowerCase()
   return post.title.toLowerCase().includes(term) || post.category.toLowerCase().includes(term)
+}
+
+function getWritableBlogFields(payload) {
+  return {
+    title: payload.title,
+    shortDescription: payload.shortDescription,
+    content: payload.content,
+    category: payload.category,
+    authorName: payload.authorName,
+    authorUid: payload.authorUid,
+    coverImageUrl: payload.coverImageUrl,
+    published: Boolean(payload.published),
+  }
 }
 
 export async function getBlogs({ category = '', limit = null, search = '' } = {}) {
@@ -102,13 +118,51 @@ export async function createBlog(payload) {
   }
 
   const now = serverTimestamp()
+  const blogFields = getWritableBlogFields(payload)
   const docRef = await addDoc(blogsCollection, {
-    ...payload,
+    ...blogFields,
     slug: createSlug(payload.title),
-    published: true,
     createdAt: now,
     updatedAt: now,
   })
 
   return { id: docRef.id, _id: docRef.id, ...payload }
+}
+
+export async function getMyBlogs(userId) {
+  if (useMocks) {
+    const { data } = await mockApi.get('/me/blogs', { params: { userId } })
+    return data.blogs
+  }
+
+  const snapshot = await getDocs(query(blogsCollection, where('authorUid', '==', userId)))
+  return snapshot.docs
+    .map(normalizePost)
+    .sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))
+}
+
+export async function updateBlog(postId, payload) {
+  if (useMocks) {
+    const { data } = await mockApi.put(`/blogs/${postId}`, payload)
+    return data.blog
+  }
+
+  const blogRef = doc(db, 'blogs', postId)
+  const blogFields = getWritableBlogFields(payload)
+  await updateDoc(blogRef, {
+    ...blogFields,
+    slug: createSlug(payload.title),
+    updatedAt: serverTimestamp(),
+  })
+
+  return { id: postId, _id: postId, ...blogFields, slug: createSlug(payload.title) }
+}
+
+export async function deleteBlog(postId) {
+  if (useMocks) {
+    await mockApi.delete(`/blogs/${postId}`)
+    return
+  }
+
+  await deleteDoc(doc(db, 'blogs', postId))
 }

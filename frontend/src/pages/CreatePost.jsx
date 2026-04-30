@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PostForm from '../components/PostForm.jsx'
+import { useAuth } from '../hooks/useAuth.js'
 import { createBlog } from '../services/blogService.js'
 import initialPost from '../utils/initialPost.js'
 
 export default function CreatePost() {
-  const [post, setPost] = useState(initialPost)
+  const { user } = useAuth()
+  const [post, setPost] = useState(() => ({
+    ...initialPost,
+    authorName: user.displayName || user.email || '',
+  }))
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
   const navigate = useNavigate()
@@ -18,8 +23,12 @@ export default function CreatePost() {
     event.preventDefault()
     try {
       setSaving(true)
-      await createBlog(post)
-      navigate('/blogs')
+      await createBlog({
+        ...post,
+        authorName: post.authorName || user.displayName || user.email,
+        authorUid: user.uid,
+      })
+      navigate('/profile')
     } catch (err) {
       setError(err.message || 'Unable to create post.')
     } finally {
@@ -33,7 +42,7 @@ export default function CreatePost() {
         <p className="text-sm font-black uppercase tracking-wide text-[#1b7a6b]">Community writing</p>
         <h1 className="mt-2 text-4xl font-black text-[#101820]">Upload a blog post</h1>
         <p className="mt-3 max-w-2xl leading-7 text-[#536872]">
-          Share a post with the blog audience. Submitted posts are published immediately.
+          Share a post with the blog audience, then manage it from your profile.
         </p>
       </div>
       <PostForm

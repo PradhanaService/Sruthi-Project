@@ -45,6 +45,13 @@ const mockApi = {
       return { data: { count: blogs.length, blogs } }
     }
 
+    if (url === '/me/blogs') {
+      const blogs = posts
+        .filter((post) => post.authorUid === config.params?.userId)
+        .sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))
+      return { data: { count: blogs.length, blogs } }
+    }
+
     if (url.startsWith('/blogs/')) {
       const slug = url.split('/').pop()
       const blog = posts.find((post) => post.slug === slug)

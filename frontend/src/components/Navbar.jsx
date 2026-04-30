@@ -1,6 +1,7 @@
-import { Menu, PenLine, X } from 'lucide-react'
+import { LogOut, Menu, PenLine, UserRound, X } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth.js'
 
 const linkClass = ({ isActive }) =>
   `rounded-md px-3 py-2 text-sm font-semibold transition duration-300 hover:bg-[#dce8e4] hover:text-[#0c2230] ${
@@ -9,6 +10,12 @@ const linkClass = ({ isActive }) =>
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const { logout, user } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+    setOpen(false)
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#1b7a6b]/20 bg-[#f8fbfa]/90 backdrop-blur-xl">
@@ -33,6 +40,22 @@ export default function Navbar() {
           <NavLink to="/" className={linkClass}>Home</NavLink>
           <NavLink to="/blogs" className={linkClass}>Blogs</NavLink>
           <NavLink to="/write" className={linkClass}>Write</NavLink>
+          {user ? (
+            <>
+              <NavLink to="/profile" className={linkClass}>Profile</NavLink>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-[#314553] transition duration-300 hover:bg-[#dce8e4] hover:text-[#0c2230]"
+              >
+                <LogOut size={16} /> Logout
+              </button>
+            </>
+          ) : (
+            <NavLink to="/login" className={linkClass}>
+              <span className="inline-flex items-center gap-2"><UserRound size={16} /> Login</span>
+            </NavLink>
+          )}
         </div>
       </nav>
 
@@ -42,6 +65,20 @@ export default function Navbar() {
             <NavLink onClick={() => setOpen(false)} to="/" className={linkClass}>Home</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/blogs" className={linkClass}>Blogs</NavLink>
             <NavLink onClick={() => setOpen(false)} to="/write" className={linkClass}>Write</NavLink>
+            {user ? (
+              <>
+                <NavLink onClick={() => setOpen(false)} to="/profile" className={linkClass}>Profile</NavLink>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-md px-3 py-2 text-left text-sm font-semibold text-[#314553] transition duration-300 hover:bg-[#dce8e4] hover:text-[#0c2230]"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <NavLink onClick={() => setOpen(false)} to="/login" className={linkClass}>Login</NavLink>
+            )}
           </div>
         </div>
       )}

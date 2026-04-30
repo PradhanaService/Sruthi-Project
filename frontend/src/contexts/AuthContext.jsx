@@ -65,6 +65,7 @@ export function AuthProvider({ children }) {
       if (displayName) {
         await updateProfile(credential.user, { displayName })
       }
+      setUser(credential.user)
       return credential.user
     },
     async logout() {

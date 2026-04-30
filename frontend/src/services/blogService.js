@@ -16,6 +16,15 @@ import mockApi from './mockApi.js'
 
 const blogsCollection = collection(db, 'blogs')
 const useMocks = import.meta.env.VITE_USE_MOCKS === 'true'
+const permissionDeniedMessage = 'Your profile could not load because Firestore rules are blocking this request. Deploy the included firestore.rules file with npm run deploy:rules from the frontend folder.'
+
+function getFriendlyFirestoreError(error, fallback) {
+  if (error?.code === 'permission-denied' || /missing or insufficient permissions/i.test(error?.message || '')) {
+    return new Error(permissionDeniedMessage)
+  }
+
+  return new Error(error?.message || fallback)
+}
 
 function createSlug(title) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -74,7 +83,12 @@ export async function getBlogs({ category = '', limit = null, search = '' } = {}
     constraints.push(limitQuery(Number(limit)))
   }
 
-  const snapshot = await getDocs(query(blogsCollection, ...constraints))
+  let snapshot
+  try {
+    snapshot = await getDocs(query(blogsCollection, ...constraints))
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to load posts.')
+  }
   let posts = snapshot.docs
     .map(normalizePost)
     .filter((post) => !category || post.category === category)
@@ -93,12 +107,17 @@ export async function getBlogBySlug(slug) {
     return data.blog
   }
 
-  const snapshot = await getDocs(query(
-    blogsCollection,
-    where('slug', '==', slug),
-    where('published', '==', true),
-    limitQuery(1)
-  ))
+  let snapshot
+  try {
+    snapshot = await getDocs(query(
+      blogsCollection,
+      where('slug', '==', slug),
+      where('published', '==', true),
+      limitQuery(1)
+    ))
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to load this blog post.')
+  }
   if (snapshot.empty) {
     throw new Error('Blog post not found.')
   }
@@ -119,12 +138,17 @@ export async function createBlog(payload) {
 
   const now = serverTimestamp()
   const blogFields = getWritableBlogFields(payload)
-  const docRef = await addDoc(blogsCollection, {
-    ...blogFields,
-    slug: createSlug(payload.title),
-    createdAt: now,
-    updatedAt: now,
-  })
+  let docRef
+  try {
+    docRef = await addDoc(blogsCollection, {
+      ...blogFields,
+      slug: createSlug(payload.title),
+      createdAt: now,
+      updatedAt: now,
+    })
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to create this post.')
+  }
 
   return { id: docRef.id, _id: docRef.id, ...payload }
 }
@@ -135,7 +159,12 @@ export async function getMyBlogs(userId) {
     return data.blogs
   }
 
-  const snapshot = await getDocs(query(blogsCollection, where('authorUid', '==', userId)))
+  let snapshot
+  try {
+    snapshot = await getDocs(query(blogsCollection, where('authorUid', '==', userId)))
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to load your posts.')
+  }
   return snapshot.docs
     .map(normalizePost)
     .sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt))
@@ -149,11 +178,15 @@ export async function updateBlog(postId, payload) {
 
   const blogRef = doc(db, 'blogs', postId)
   const blogFields = getWritableBlogFields(payload)
-  await updateDoc(blogRef, {
-    ...blogFields,
-    slug: createSlug(payload.title),
-    updatedAt: serverTimestamp(),
-  })
+  try {
+    await updateDoc(blogRef, {
+      ...blogFields,
+      slug: createSlug(payload.title),
+      updatedAt: serverTimestamp(),
+    })
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to update this post.')
+  }
 
   return { id: postId, _id: postId, ...blogFields, slug: createSlug(payload.title) }
 }
@@ -164,5 +197,9 @@ export async function deleteBlog(postId) {
     return
   }
 
-  await deleteDoc(doc(db, 'blogs', postId))
+  try {
+    await deleteDoc(doc(db, 'blogs', postId))
+  } catch (error) {
+    throw getFriendlyFirestoreError(error, 'Unable to delete this post.')
+  }
 }

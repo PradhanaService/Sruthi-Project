@@ -34,7 +34,8 @@ service cloud.firestore {
 
   match /databases/{database}/documents {
     match /blogs/{blogId} {
-      allow read: if resource.data.published == true || isOwner(resource.data);
+      allow get: if resource.data.published == true || isOwner(resource.data);
+      allow list: if resource.data.published == true || isSignedIn();
       allow create: if isSignedIn()
         && hasValidBlogFields()
         && request.resource.data.authorUid == request.auth.uid;
